@@ -11,6 +11,7 @@ const app = express()
 const registerRoute = require('./routes/register');
 const loginRoute = require('./routes/login');
 const friendRoute = require('./routes/friend');
+const userRoute = require('./routes/user');
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -25,6 +26,7 @@ app.use(cors())
 app.use('/register', registerRoute);
 app.use('/login', loginRoute);
 app.use('/friend', friendRoute);
+app.use('/user', userRoute);
 
 app.use(function errorHandler(error, req, res, next) {
     let response;
