@@ -43,7 +43,7 @@ router.post('/addcode', async (req, res) => {
             usernameOne = req.body.username;
             usernameTwo = response.rows[0].username;  
             let tableName = createMessageTableName(usernameOne, usernameTwo, req.body.userId, response.rows[0].id);
-            sql = 'CREATE TABLE '+tableName+' (id serial PRIMARY KEY, message VARCHAR(5000) NOT NULL, sender VARCHAR(255) NOT NULL, ts VARCHAR(12) NOT NULL)';
+            sql = 'CREATE TABLE '+tableName+' (id serial PRIMARY KEY, message VARCHAR(5000) NOT NULL, sender VARCHAR(255) NOT NULL, ts VARCHAR(30) NOT NULL)';
             responseAddFriend = await pool.query(sql);
         }
         res.send(response.rows);     
@@ -72,7 +72,7 @@ router.post('/addusername', async (req, res) => {
             usernameOne = req.body.username;
             usernameTwo = response.rows[0].username;  
             let tableName = createMessageTableName(usernameOne, usernameTwo, req.body.userId, response.rows[0].id);
-            sql = 'CREATE TABLE '+tableName+' (id serial PRIMARY KEY, message VARCHAR(5000) NOT NULL, sender VARCHAR(255) NOT NULL, ts VARCHAR(12) NOT NULL)';
+            sql = 'CREATE TABLE '+tableName+' (id serial PRIMARY KEY, message VARCHAR(5000) NOT NULL, sender VARCHAR(255) NOT NULL, ts VARCHAR(30) NOT NULL)';
             responseAddFriend = await pool.query(sql);
         }
         res.send(response.rows);
