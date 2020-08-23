@@ -16,9 +16,7 @@ router.post('/', async (req, res) => {
         let sql = 'INSERT INTO users(username, password) VALUES($1, $2) RETURNING *';
         let params = [ req.body.username, req.body.password ];
         let response = await pool.query(sql, params);
-
         userTable(response.rows);
-
         res.send(response.rows);
     }
     catch {
@@ -28,10 +26,8 @@ router.post('/', async (req, res) => {
 
 async function userTable(userData){
     try {
-        console.log(userData[0].id);
         let tableName = userData[0].username;
         let sql = 'CREATE TABLE '+tableName+' (id serial PRIMARY KEY, friendId integer NOT NULL, friendUsername VARCHAR(255) NOT NULL)';
-        console.log(sql);
         let params = [ tableName ];
         let response = await pool.query(sql);
     }

@@ -21,7 +21,6 @@ function createMessageTableName(usernameOne, usernameTwo, userIdOne, userIdTwo){
 }
 
 router.post('/all', async (req, res) => {
-    console.log(req.body)
     try {
         let tableName = createMessageTableName(req.body.username, req.body.friendUsername, req.body.userId,  req.body.friendId);
         let sql = 'SELECT id, message, sender, ts FROM '+tableName;  
@@ -39,7 +38,6 @@ router.post('/send', async (req, res) => {
         let tableName = createMessageTableName(req.body.username, req.body.friendUsername, req.body.userId,  req.body.friendId);
         let sql = 'INSERT INTO '+tableName+'(message, sender, ts) VALUES($1, $2, $3) RETURNING *';
         let params = [ req.body.text, req.body.username, ts ];
-        console.log(req.body.text, req.body.username, ts)
         let messageResponse = await pool.query(sql, params);
         res.send(messageResponse);
     }

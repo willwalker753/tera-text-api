@@ -32,9 +32,7 @@ router.post('/', async (req, res) => {
             let tableName = createMessageTableName(username, friendArr[i].friendusername, userId, friendArr[i].friendid);
             sql = 'SELECT message, ts FROM '+tableName+' ORDER BY id DESC LIMIT 1';
             let responseMessage = await pool.query(sql);
-            console.log(responseMessage)
             if(responseMessage.rows[0]){
-                console.log('yup')
                 responseArr[i] = { 
                     friendusername: friendArr[i].friendusername, 
                     friendid: friendArr[i].friendid, 
@@ -43,7 +41,6 @@ router.post('/', async (req, res) => {
                 }
             }
             else{
-                console.log('nope')
                 responseArr[i] = { 
                     friendusername: friendArr[i].friendusername, 
                     friendid: friendArr[i].friendid, 
