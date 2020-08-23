@@ -23,7 +23,7 @@ function createMessageTableName(usernameOne, usernameTwo, userIdOne, userIdTwo){
 router.post('/all', async (req, res) => {
     try {
         let tableName = createMessageTableName(req.body.username, req.body.friendUsername, req.body.userId,  req.body.friendId);
-        let sql = 'SELECT id, message, sender, ts FROM '+tableName;  
+        let sql = 'SELECT id, message, picture, sender, ts FROM '+tableName;  
         let messageResponse = await pool.query(sql);
         res.send(messageResponse);
     }
@@ -43,6 +43,21 @@ router.post('/send', async (req, res) => {
     }
     catch {
         res.send('Cannot post message')
+    }
+})
+
+router.post('/send/pic', async (req, res) => {
+    try{
+        let ts = new Date();
+        let base64 = req.body.picture.base64;
+        let tableName = createMessageTableName(req.body.username, req.body.friendUsername, req.body.userId,  req.body.friendId); 
+        let sql = 'INSERT INTO '+tableName+'(picture, sender, ts) VALUES($1, $2, $3)';
+        let params = [ base64, req.body.username, ts ];
+        await pool.query(sql, params);
+        res.send('Image successfully sent');
+    }
+    catch{
+        res.send('Image could not be sent sent');
     }
 })
 

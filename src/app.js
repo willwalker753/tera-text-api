@@ -19,7 +19,7 @@ const morganOption = (NODE_ENV === 'production')
   : 'common';
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use( bodyParser.json({ limit: '10MB' }));
 app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
