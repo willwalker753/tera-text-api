@@ -23,9 +23,15 @@ function createMessageTableName(usernameOne, usernameTwo, userIdOne, userIdTwo){
 router.post('/all', async (req, res) => {
     try {
         let tableName = createMessageTableName(req.body.username, req.body.friendUsername, req.body.userId,  req.body.friendId);
-        let sql = 'SELECT id, message, picture, sender, ts FROM '+tableName;  
+        let sql = 'SELECT id, message, picture, sender, ts FROM '+tableName +' ORDER BY id DESC';  
         let messageResponse = await pool.query(sql);
-        res.send(messageResponse);
+        if(messageResponse.rows.length === req.body.numOfMessages) {
+            messageResponse = '';
+            res.send(messageResponse)            
+        }
+        else{
+            res.send(messageResponse);
+        }
     }
     catch {
         res.send('Messages not found')

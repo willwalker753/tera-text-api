@@ -18,8 +18,18 @@ const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
 
+app.use(function (req, res, next) {
+
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    next();
+});
+
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use( bodyParser.json({ limit: '10MB' }));
+app.use( bodyParser.json({ limit: '50MB' }));
 app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
