@@ -13,6 +13,7 @@ const loginRoute = require('./routes/login');
 const friendRoute = require('./routes/friend');
 const userRoute = require('./routes/user');
 const messageRoute = require('./routes/message');
+const accountRoute = require('./routes/account');
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
@@ -39,6 +40,7 @@ app.use('/login', loginRoute);
 app.use('/friend', friendRoute);
 app.use('/user', userRoute);
 app.use('/message', messageRoute);
+app.use('/account', accountRoute);
 
 app.use(function errorHandler(error, req, res, next) {
     let response;

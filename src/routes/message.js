@@ -20,6 +20,17 @@ function createMessageTableName(usernameOne, usernameTwo, userIdOne, userIdTwo){
     return usernameOne + usernameTwo;
 }
 
+router.post('/profilepic', async (req, res) => {
+    try {
+        let sql = 'SELECT profilepic FROM users WHERE username=$1';  
+        let params = [ req.body.friendUsername ];
+        let response = await pool.query(sql, params);
+        res.send(response.rows[0])
+    }
+    catch {
+        res.send('Friend profile pic not found')
+    }
+})
 router.post('/all', async (req, res) => {
     try {
         let tableName = createMessageTableName(req.body.username, req.body.friendUsername, req.body.userId,  req.body.friendId);

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcryptjs');
 const { Pool } = require('pg');
 
 const pool = new Pool({  
@@ -13,11 +14,16 @@ const pool = new Pool({
 
 router.post('/', async (req, res) => {
     try {
-        let sql = 'INSERT INTO users(username, password) VALUES($1, $2) RETURNING *';
-        let params = [ req.body.username, req.body.password ];
+        let password = req.body.password;
+        let saltRounds = 10;
+        let hash = bcrypt.hashSync(password, saltRounds);
+        password = hash;   
+        let sql = 'INSERT INTO users(username, password, profilepic) VALUES($1, $2, $3) RETURNING *';
+        let params = [ req.body.username, password, req.body.profilePic ];
         let response = await pool.query(sql, params);
         userTable(response.rows);
         res.send(response.rows);
+
     }
     catch {
         res.send('Account creation unsuccessful')

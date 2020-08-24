@@ -110,6 +110,13 @@ router.post('/all', async (req, res) => {
     try {
         let sql = 'SELECT friendid, friendusername FROM '+req.body.username;
         let response = await pool.query(sql);
+        for(let i=0; i<response.rows.length; i++) {
+            sql = 'SELECT profilepic FROM users WHERE username=$1';
+            let params = [ response.rows[i].friendusername ];
+            let responseProfilePic = await pool.query(sql, params);
+            response.rows[i].friendProfilePic = responseProfilePic.rows[0].profilepic;
+        }
+        
         res.send(response.rows);
     }
     catch {

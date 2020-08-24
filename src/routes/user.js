@@ -32,12 +32,16 @@ router.post('/', async (req, res) => {
             let tableName = createMessageTableName(username, friendArr[i].friendusername, userId, friendArr[i].friendid);
             sql = 'SELECT message, ts FROM '+tableName+' ORDER BY id DESC LIMIT 1';
             let responseMessage = await pool.query(sql);
+            sql = 'SELECT profilepic FROM users WHERE username=$1';
+            let params = [ friendArr[i].friendusername ];
+            let responseProfilePic = await pool.query(sql, params);
             if(responseMessage.rows[0]){
                 responseArr[i] = { 
                     friendusername: friendArr[i].friendusername, 
                     friendid: friendArr[i].friendid, 
                     friendmessage: responseMessage.rows[0].message,
-                    friendts: responseMessage.rows[0].ts
+                    friendts: responseMessage.rows[0].ts,
+                    friendProfilePic: responseProfilePic.rows[0].profilepic
                 }
             }
             else{
@@ -45,7 +49,8 @@ router.post('/', async (req, res) => {
                     friendusername: friendArr[i].friendusername, 
                     friendid: friendArr[i].friendid, 
                     friendmessage: 'No messages yet',
-                    friendts: ''
+                    friendts: '',
+                    friendProfilePic: responseProfilePic.rows[0].profilepic
                 }
             }
             
