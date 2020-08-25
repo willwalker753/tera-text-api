@@ -106,6 +106,22 @@ router.post('/removefriend', async (req, res) => {
         res.send('Trouble connecting to db')
     }
 })
+
+router.post('/deleteconversation', async (req, res) => {   
+    try {
+        let sql = 'SELECT id, username FROM users WHERE username=$1';
+        let params = [ req.body.usernameToRemove ];
+        let responseTable = await pool.query(sql, params);
+
+        let tableName = await createMessageTableName(req.body.username, req.body.usernameToRemove, req.body.userId, responseTable.rows[0].id);
+        sql = 'DELETE FROM '+tableName;
+        let responseRemoveTableRows = await pool.query(sql);
+        res.send(responseRemoveTableRows);   
+    }
+    catch {
+        res.send('Trouble connecting to db')
+    }
+})
 router.post('/all', async (req, res) => {
     try {
         let sql = 'SELECT friendid, friendusername FROM '+req.body.username;
