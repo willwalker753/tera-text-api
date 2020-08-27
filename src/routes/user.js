@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
         let friendArr = response.rows
         for(let i=0;i<friendArr.length;i++){
             let tableName = createMessageTableName(username, friendArr[i].friendusername, userId, friendArr[i].friendid);
-            sql = 'SELECT message, ts FROM '+tableName+' ORDER BY id DESC LIMIT 1';
+            sql = 'SELECT message, ts, sender FROM '+tableName+' ORDER BY id DESC LIMIT 1';
             let responseMessage = await pool.query(sql);
             sql = 'SELECT profilepic FROM users WHERE username=$1';
             let params = [ friendArr[i].friendusername ];
