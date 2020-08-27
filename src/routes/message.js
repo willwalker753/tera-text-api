@@ -51,7 +51,7 @@ router.post('/all', async (req, res) => {
 
 router.post('/send', async (req, res) => {
     try {
-        let ts = new Date("America/Chicago");
+        let ts = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
         let tableName = createMessageTableName(req.body.username, req.body.friendUsername, req.body.userId,  req.body.friendId);
         let sql = 'INSERT INTO '+tableName+'(message, sender, ts) VALUES($1, $2, $3) RETURNING *';
         let params = [ req.body.text, req.body.username, ts ];
