@@ -41,6 +41,7 @@ router.post('/', async (req, res) => {
                     friendid: friendArr[i].friendid, 
                     friendmessage: responseMessage.rows[0].message,
                     friendts: responseMessage.rows[0].ts,
+                    sender: responseMessage.rows[0].sender,
                     friendProfilePic: responseProfilePic.rows[0].profilepic
                 }
             }
