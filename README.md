@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000)](https://github.com/godban/browsers-support-badges) [![Travis](https://img.shields.io/travis/godban/browsers-support-badges.svg)](https://github.com/godban/browsers-support-badges) [![David](https://img.shields.io/david/godban/browsers-support-badges.svg)](https://github.com/godban/browsers-support-badges)
 
-> This is the API for <a href='https://teratext.vercel.app/'>Teratext; a secure messaging web app. It is responsible for receiving all calls from the frond end and storing/serving data. This API uses Node with Express and connects to a postgreSQL DB.</a>
+> This is the API for <a href='https://teratext.vercel.app/'>Teratext</a>; a secure messaging web app. It is responsible for receiving all calls from the frond end and storing/serving data. This API uses Node with Express and connects to a postgreSQL DB.
 
 ### 📨 [Live Demo](https://teratext.vercel.app/)
 ### 📦 [Front End Repo](https://github.com/willwalker753/teratext)
@@ -49,7 +49,7 @@ npm test
 
 ## ✏️ Author
 
-#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Will
+#### &nbsp;&nbsp;&nbsp;&nbsp;Will
 
 * Website: https://willwalker.vercel.app/
 * Github: [@willwalker753](https://github.com/willwalker753)
