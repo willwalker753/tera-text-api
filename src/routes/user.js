@@ -11,6 +11,7 @@ const pool = new Pool({
     port: process.env.DB_PORT
 })
 
+// Creates table name with two usernames. the username with the lower id goes first
 function createMessageTableName(usernameOne, usernameTwo, userIdOne, userIdTwo){
     if(userIdOne > userIdTwo){
         let temp = usernameOne;
@@ -27,7 +28,8 @@ router.post('/', async (req, res) => {
         let userId = req.body.userId;
         let sql = 'SELECT friendid, friendusername FROM '+username;
         let response = await pool.query(sql);
-        let friendArr = response.rows
+        let friendArr = response.rows;
+        // Iterate through friend array creating a response object
         for(let i=0;i<friendArr.length;i++){
             let tableName = createMessageTableName(username, friendArr[i].friendusername, userId, friendArr[i].friendid);
             sql = 'SELECT message, ts, sender FROM '+tableName+' ORDER BY id DESC LIMIT 1';

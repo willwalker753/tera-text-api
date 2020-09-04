@@ -12,6 +12,7 @@ const pool = new Pool({
     port: process.env.DB_PORT
 })
 
+// Creates table name with two usernames. the username with the lower id goes first
 function createMessageTableName(usernameOne, usernameTwo, userIdOne, userIdTwo){
     if(userIdOne > userIdTwo){
         let temp = usernameOne;
@@ -45,13 +46,16 @@ router.post('/profilepic/update', async (req, res) => {
 })
 
 router.post('/delete', async (req, res) => {
-    try {     
+    try {  
+        // Remove login info   
         let sql = 'DELETE FROM users WHERE username=$1';
         let params = [ req.body.username ];
         let response = await pool.query(sql, params);
+        // Get friend list
         sql = 'SELECT friendId, friendusername FROM '+req.body.username;
         let responseFriends = await pool.query(sql);  
         responseFriends = responseFriends.rows; 
+        // Iterate over friend list removing user's name from each friend's table and deleting shared message tables
         for(let i=0; i<responseFriends.length; i++){
             sql = 'DELETE FROM '+responseFriends[i].friendusername+' WHERE friendusername=$1';
             params = [ req.body.username ]; 
@@ -60,6 +64,7 @@ router.post('/delete', async (req, res) => {
             sql = 'DROP TABLE IF EXISTS '+friendTable;
             response = await pool.query(sql);
         }
+        // Drop user's own table
         sql = 'DROP TABLE IF EXISTS '+req.body.username;
         response = await pool.query(sql);
         res.send(response)

@@ -11,6 +11,7 @@ const pool = new Pool({
     port: process.env.DB_PORT
 })
 
+// Creates table name with two usernames. the username with the lower id goes first
 function createMessageTableName(usernameOne, usernameTwo, userIdOne, userIdTwo){
     if(userIdOne > userIdTwo){
         let temp = usernameOne;
@@ -20,6 +21,7 @@ function createMessageTableName(usernameOne, usernameTwo, userIdOne, userIdTwo){
     return usernameOne + usernameTwo;
 }
 
+// Get friend profile pic
 router.post('/profilepic', async (req, res) => {
     try {
         let sql = 'SELECT profilepic FROM users WHERE username=$1';  
@@ -31,6 +33,8 @@ router.post('/profilepic', async (req, res) => {
         res.send('Friend profile pic not found')
     }
 })
+
+// Get all messages with friend
 router.post('/all', async (req, res) => {
     try {
         let tableName = createMessageTableName(req.body.username, req.body.friendUsername, req.body.userId,  req.body.friendId);
@@ -49,6 +53,7 @@ router.post('/all', async (req, res) => {
     }
 })
 
+// Send a text message
 router.post('/send', async (req, res) => {
     try {
         let ts = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});
@@ -63,6 +68,8 @@ router.post('/send', async (req, res) => {
     }
 })
 
+
+// Send a picture
 router.post('/send/pic', async (req, res) => {
     try{
         let ts = new Date().toLocaleString("en-US", {timeZone: "America/Chicago"});

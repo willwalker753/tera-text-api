@@ -38,7 +38,7 @@ async function userTable(userData){
         let response = await pool.query(sql);
     }
     catch {
-        console.log('failed to create userTable')
+        res.send('failed to create userTable')
     }
 }
 

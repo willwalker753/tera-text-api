@@ -14,6 +14,7 @@ const pool = new Pool({
     port: process.env.DB_PORT
 })
 
+// Creates table name with two usernames. the username with the lower id goes first
 function createMessageTableName(usernameOne, usernameTwo, userIdOne, userIdTwo){
     if(userIdOne > userIdTwo){
         let temp = usernameOne;
@@ -32,14 +33,17 @@ router.post('/addcode', async (req, res) => {
             res.send('no matches');
         }
         else if(response.rows[0].id){
+            // Add friend info to user table
             sql = 'INSERT INTO '+req.body.username+'(friendid, friendusername) VALUES($1, $2) RETURNING *';
             params = [ response.rows[0].id, response.rows[0].username ];
             responseAddFriend = await pool.query(sql, params);
             
+            // Add user info to friend table
             sql = 'INSERT INTO '+response.rows[0].username+'(friendid, friendusername) VALUES($1, $2) RETURNING *';
             params = [ req.body.userId, req.body.username ];
             responseAddFriend = await pool.query(sql, params);
 
+            // Create shared table for messages
             usernameOne = req.body.username;
             usernameTwo = response.rows[0].username;  
             let tableName = createMessageTableName(usernameOne, usernameTwo, req.body.userId, response.rows[0].id);
