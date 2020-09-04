@@ -1,8 +1,8 @@
-const app = require('../src/app')
+const app = require('../src/routes/friend')
 const supertest = require('supertest');
 
-describe('App', () => {
-    it('app router working', () => {
+describe('Friend', () => {
+    it('/friend/all responds with 200', () => {
         let username = 'dog';
         supertest(app)
             .post('/friend/all')
