@@ -9,7 +9,8 @@ const pool = new Pool({
     host: process.env.DB_HOST,
     database: process.env.DB_DB,
     password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
+    port: process.env.DB_PORT,
+    ssl: { rejectUnauthorized: false }
 })
 
 router.post('/', async (req, res) => {
@@ -25,8 +26,9 @@ router.post('/', async (req, res) => {
         res.send(response.rows);
 
     }
-    catch {
+    catch(err) {
         res.send('Account creation unsuccessful')
+        console.log(err)
     }
 })
 
